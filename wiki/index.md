@@ -88,6 +88,18 @@ Endpoint local : `http://localhost:11434`
 
 ---
 
+## Projets locaux
+
+| Page | Résumé |
+|------|--------|
+| [projects/index](projects/index.md) | Catalogue de tous les projets (26 projets, 6 catégories) |
+| [projects/canal-top14](projects/canal-top14.md) | Landing Canal+ / Top 14 — React 19 + Tailwind v4 + Framer Motion |
+| [projects/velotrack](projects/velotrack.md) | App vélo routing BRouter + MapLibre (4 variantes) |
+| [projects/ucl-bets](projects/ucl-bets.md) | Pronostics UCL — Next.js + Drizzle + LibSQL + Ollama |
+| [projects/autocorrect](projects/autocorrect.md) | SaaS correction docs — Next.js + Clerk + Prisma |
+| [projects/ollama-brain-watch](projects/ollama-brain-watch.md) | Dashboard monitoring Ollama — Recharts + Tailwind v4 |
+| [projects/postgres-connector](projects/postgres-connector.md) | Serveur MCP Postgres pour Claude Code |
+
 ## Règles de gouvernance
 
 - Lire `index.md` en premier à chaque session

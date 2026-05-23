@@ -24,6 +24,20 @@ Types : `ingest` | `query` | `lint` | `update` | `decision`
 - Contradictions : aucune
 - Auteur : Claude Sonnet 4.6 (assistant wiki)
 
+## [2026-05-23] ingest | Projets locaux — 26 projets ingérés
+
+- Source : `/Users/jc/.gemini/antigravity/scratch/` (scan complet)
+- Pages créées :
+  - `projects/index.md` : catalogue général 26 projets, 6 catégories
+  - `projects/canal-top14.md` : React 19 + Tailwind v4 + Framer Motion
+  - `projects/velotrack.md` : MapLibre, BRouter, Zustand (4 variantes)
+  - `projects/ucl-bets.md` : Next.js + Drizzle + LibSQL + Ollama
+  - `projects/autocorrect.md` : Next.js + Clerk + Prisma + Google APIs
+  - `projects/ollama-brain-watch.md` : Recharts + Tailwind v4, monitoring Ollama
+  - `projects/postgres-connector.md` : MCP SDK + pg + Zod
+- Index mis à jour avec section Projets
+- Contradictions : aucune
+
 ## [2026-05-23] update | allowed-tools ajoutés sur 4 skills
 
 - Pages mises à jour : write-plan, review-hardening, ship-proof, debug-root-cause
