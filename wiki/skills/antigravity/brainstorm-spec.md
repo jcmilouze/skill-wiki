@@ -1,22 +1,23 @@
 ---
-title: brainstorm-spec
-category: antigravity
-type: skill
-trigger: /brainstorm-spec
+name: brainstorm-spec
+description: Clarifie l'objectif réel, détecte les contraintes cachées, définit les critères d'acceptation et identifie les risques avant toute implémentation.
+keywords: ["brainstorm", "spec", "analyse", "risques", "critères", "hypothèses", "clarification"]
 priority: high
-depends_on: []
-models: [gemma4:31b]
+allowed-tools:
+  - Bash(find *)
+  - Bash(grep *)
+  - Bash(ls *)
 ---
 
-# brainstorm-spec — Clarifie avant d'implémenter
+# Brainstorm-Spec
 
-**Mission :** Transformer une demande floue en spécification claire et exécutable. Ne produit pas de code — seulement clarifie.
+**Mission : transformer une demande floue en spécification claire et exécutable** avant toute implémentation. Ne pas produire de code — seulement clarifier.
 
 ## Quand l'utiliser
 
-**OBLIGATOIRE** : nouvelle feature, endpoint, refactor multi-fichiers, modification DB, bug non reproductible, intégration externe, changement d'architecture.
+OBLIGATOIRE pour : nouvelle feature, endpoint, refactor multi-fichiers, modification DB, bug non reproductible, intégration externe, changement d'architecture.
 
-**FACULTATIF** : edits < 1 fichier / 50 lignes, CSS visuel, documentation.
+FACULTATIF pour : edits < 1 fichier / 50 lignes, CSS visuel, documentation.
 
 ## Processus (7 étapes)
 
@@ -28,34 +29,53 @@ models: [gemma4:31b]
 6. **CLASSIFICATION** → Type de tâche + modèle Ollama recommandé
 7. **PROCHAINES ÉTAPES** → Skill suivante suggérée
 
-## Format de sortie
+## Format de sortie obligatoire
 
 ```
 🎯 Objectif reformulé
+[1 phrase précise]
+
 📂 Contexte projet
+Fichiers concernés : [...]
+Contraintes existantes : [...]
+
 ❓ Hypothèses à valider
-✅ Critères d'acceptation (MAJEUR / SECONDAIRE)
-⚠️ Risques identifiés (CRITIQUE / MOYEN / FAIBLE)
-📊 Classification (type, complexité, modèle)
+- [hypothèse 1]
+- [hypothèse 2]
+
+✅ Critères d'acceptation
+MAJEUR : [critères sans lesquels = échec]
+SECONDAIRE : [critères souhaitables]
+
+⚠️ Risques identifiés
+CRITIQUE : [risque → impact → mitigation]
+MOYEN / FAIBLE : [...]
+
+📊 Classification
+Type : [LOCAL-SAFE | LOCAL-FIRST | PREMIUM-ONLY | VISION]
+Complexité : [basse | moyenne | haute]
+Modèle : ollama/[gemma4:31b | qwen3.5:35b]
+
 🚀 Prochaine étape : /write-plan
 ```
 
 ## Classification des tâches
 
-| Type | Modèle |
-|------|--------|
-| Code/refactor/API/SQL | `qwen3.5:35b` |
-| Architecture/analyse/vision | `gemma4:31b` |
-| Landing page / UI | `qwen3.5:35b` + 21st.dev + Stitch |
+| Type | Modèle | Ressource |
+|------|--------|-----------|
+| Code/refactor/API/SQL | `qwen3.5:35b` | — |
+| Architecture/analyse/vision | `gemma4:31b` | — |
+| Landing page / UI | `qwen3.5:35b` | 21st.dev → Stitch pour maquette |
+| Deploy Coolify | aucun LLM | Config VPS direct |
 
 ## Contraintes strictes
 
 - Ne pas proposer de code
 - Ne pas élargir le périmètre
 - Toujours classer la tâche explicitement
-- Pour les tâches UI : mentionner 21st.dev comme source
+- Toujours proposer des critères mesurables
+- Pour les tâches UI : toujours mentionner 21st.dev comme source de composants
 
-## Liens
+## Tâche reçue
 
-- Suivant : [write-plan](write-plan.md)
-- Pipeline complet : [agent](agent.md)
+$ARGUMENTS
