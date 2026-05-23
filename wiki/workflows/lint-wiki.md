@@ -14,20 +14,20 @@ updated: 2026-05-23
 
 ### 1 — Inventaire
 ```bash
-find /Users/jc/Documents/Obsidian/Skill/wiki -name "*.md" | sort
+find wiki/ -name "*.md" | sort
 ```
 - Comparer avec index.md
 - Lister les fichiers présents mais absents de l'index
 
 ### 2 — Détection des contradictions
 ```bash
-grep -r "⚠️ CONTRADICTION" /Users/jc/Documents/Obsidian/Skill/wiki/ --include="*.md" -l
+grep -r "⚠️ CONTRADICTION" wiki/ --include="*.md" -l
 ```
 Pour chaque occurrence : page, nature, date, statut (résolu / non résolu)
 
 ### 3 — Détection des orphelins
 ```
-- Pages dans index.md sans [[lien entrant]] dans d'autres pages
+- Pages dans index.md sans lien entrant dans d'autres pages
 - Vérifier manuellement ou via grep inversé
 ```
 
@@ -65,7 +65,6 @@ Pour chaque occurrence : page, nature, date, statut (résolu / non résolu)
 
 ### Actions prioritaires
 1. [action — niveau d'urgence]
-2. ...
 ```
 
 ### 7 — Log

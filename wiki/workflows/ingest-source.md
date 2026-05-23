@@ -6,7 +6,7 @@ updated: 2026-05-23
 # Workflow : Ingest Source
 
 ## Quand l'utiliser
-Nouvelle source à intégrer : article, note, transcript, documentation, conversation.
+Nouvelle source à intégrer : fichier local, article, note, transcript, documentation, conversation.
 
 ## Étapes
 
@@ -49,22 +49,20 @@ origin: [url ou chemin]
 Sauvegarder dans `sources/[YYYY-MM-DD]-[slug].md`
 
 ### 4 — Mise à jour des pages wiki
-```
+
 Pour chaque concept/entité identifié :
 1. Vérifier dans index.md si la page existe
 2. Existe → lire, intégrer, mettre à jour la date `updated:`
 3. N'existe pas → créer dans le bon dossier avec frontmatter minimal
 4. Lier vers la source : "Voir aussi : [[sources/[slug]]]"
-```
 
 ### 5 — Signalement des contradictions
-```
+
 Si contradiction :
 1. Ajouter dans la page concernée :
    > ⚠️ CONTRADICTION [YYYY-MM-DD] : [explication courte]
    > Source : [[sources/[slug]]]
 2. Garder les deux versions jusqu'à résolution explicite
-```
 
 ### 6 — Mise à jour index.md et log.md
 ```
@@ -76,6 +74,12 @@ Si contradiction :
   - Pages mises à jour : [[...]]
   - Contradictions : aucune / voir [[...]]
 ```
+
+## Règles
+
+- ⚠️ CONTRADICTION si une info contredit une page existante → signaler, ne pas écraser silencieusement
+- Une page = une entité atomique
+- Pas de duplication inter-pages
 
 ## Liens
 - [[skills/wiki-ingest]]
