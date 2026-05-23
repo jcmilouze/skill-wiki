@@ -23,3 +23,10 @@ Types : `ingest` | `query` | `lint` | `update` | `decision`
 - Index mis à jour avec les deux catégories de skills
 - Contradictions : aucune
 - Auteur : Claude Sonnet 4.6 (assistant wiki)
+
+## [2026-05-23] update | allowed-tools ajoutés sur 4 skills
+
+- Pages mises à jour : write-plan, review-hardening, ship-proof, debug-root-cause
+- Changement : ajout frontmatter `allowed-tools` (find/grep/ls/cat selon le skill)
+- Source : sync depuis `/Users/jc/.claude/skills/*/SKILL.md`
+- Contradictions : aucune

@@ -1,31 +1,35 @@
 ---
-title: review-hardening
-category: antigravity
-type: skill
-trigger: /review-hardening
+name: review-hardening
+description: Revue qualité systématique avant livraison — sécurité, dette technique, régression, lisibilité, edge cases. Bloque les livrables imparfaits.
+keywords: ["review", "qualité", "sécurité", "dette", "régression", "audit", "hardening"]
 priority: critical
-depends_on: [execute-plan]
-models: [gemma4:31b, qwen3.5:35b]
+depends_on: ["execute-plan"]
+allowed-tools:
+  - Bash(find *)
+  - Bash(grep *)
+  - Bash(ls *)
 ---
 
-# review-hardening — Audit qualité avant livraison
+# Review-Hardening
 
-**Mission :** Garantir un code de qualité production avant toute livraison ou merge. Bloque si des seuils critiques ne sont pas atteints.
+**Mission : garantir un code de qualité production** avant toute livraison ou merge. Bloque si des seuils critiques ne sont pas atteints.
 
 ## Quand l'utiliser
 
-**OBLIGATOIRE** après `/execute-plan` (> 2 étapes), modification sécurité/auth/DB, refactor multi-fichiers.
+OBLIGATOIRE après `/execute-plan` (> 2 étapes), modification sécurité/auth/DB, refactor multi-fichiers.
 
 ## Vérification 4 niveaux (GSD)
+
+Avant tout checkpoint, valider ces 4 niveaux pour chaque artefact livré :
 
 | Niveau | Question | Méthode |
 |--------|----------|---------|
 | **Exists** | Le fichier/fonction est-il présent ? | `ls`, `grep` |
-| **Substantive** | Vraie implémentation (pas un stub) ? | Chercher : `TODO`, `FIXME`, `placeholder`, `[]`, `{}` |
-| **Wired** | Connecté au système ? | Tracer imports, handlers, routes |
-| **Functional** | Fonctionne-t-il réellement ? | Test manuel / CI |
+| **Substantive** | Est-ce une vraie implémentation (pas un stub) ? | Chercher : `TODO`, `FIXME`, `placeholder`, `[]`, `{}`, `null`, `// ...` |
+| **Wired** | Est-il connecté au système (importé, appelé, routé) ? | Tracer les imports, les handlers, les routes |
+| **Functional** | Fonctionne-t-il réellement quand on l'invoque ? | Test manuel / CI / vérification humaine |
 
-Niveaux 1–3 = vérifiables automatiquement. Niveau 4 = checkpoint humain.
+Niveaux 1-3 = vérifiables automatiquement. Niveau 4 = checkpoint humain.
 
 ## 8 Checkpoints obligatoires
 
@@ -38,20 +42,31 @@ Niveaux 1–3 = vérifiables automatiquement. Niveau 4 = checkpoint humain.
 7. **MAINTENANCE** : backward compat, gestion d'erreurs, évolutivité
 8. **DOCUMENTATION** : README et API docs à jour si changement d'interface
 
-## Format de sortie
+## Format de sortie obligatoire
 
 ```
 🔍 REVIEW HARDENING : [Tâche/Feature]
+
 📊 Verdict global : APPROVED ✅ | WARNINGS ⚠️ | BLOCKED 🛑
+
 | # | Checkpoint | Statut | Détail | Action requise |
+|---|-----------|--------|--------|----------------|
+| 1 | Sécurité | ✅/⚠️/🛑 | [...] | [...] |
+| 2 | Dette tech | ... | ... | ... |
+| ... | ... | ... | ... | ... |
+
 🛑 BLOCKERS (à corriger avant de continuer)
+- [blocker 1 → correctif requis]
+
 ⚠️ WARNINGS (améliorations recommandées)
-🚀 Recommandation : APPROVED → /ship-proof | FIX → corriger | BLOCKED → stop
+- [warning 1]
+
+🚀 Recommandation : APPROVED → /ship-proof | FIX → corriger d'abord | BLOCKED → stop
 ```
 
 ## Seuils bloquants (BLOCKED automatique)
 
-- Vulnérabilités OWASP Top 10
+- Vulnérabilités OWASP Top 10 présentes
 - Secrets hardcodés dans le code
 - SQL non paramétrisé
 - Tests < 80% sur les nouvelles modifications
@@ -60,11 +75,10 @@ Niveaux 1–3 = vérifiables automatiquement. Niveau 4 = checkpoint humain.
 
 ## Modèles recommandés
 
-- Review standard → `gemma4:31b`
+- Review standard → `gemma4:31b` (raisonnement critique)
+- Sécurité critique → déléguer à un audit manuel
 - Code complexe → `qwen3.5:35b`
-- Sécurité critique → audit manuel
 
-## Liens
+## Tâche reçue
 
-- Précédent : [execute-plan](execute-plan.md)
-- Suivant : [ship-proof](ship-proof.md)
+$ARGUMENTS

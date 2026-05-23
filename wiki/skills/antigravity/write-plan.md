@@ -1,60 +1,105 @@
 ---
-title: write-plan
-category: antigravity
-type: skill
-trigger: /write-plan
+name: write-plan
+description: Transforme une spécification claire en plan d'exécution atomique, séquencé, testable avec fichiers, tests, modèles et dépendances.
+keywords: ["plan", "étapes", "exécution", "tâches", "dépendances", "séquence", "roadmap"]
 priority: high
-depends_on: [brainstorm-spec]
-models: [gemma4:31b, qwen3.5:35b]
+depends_on: ["brainstorm-spec"]
+allowed-tools:
+  - Bash(find *)
+  - Bash(grep *)
+  - Bash(ls *)
 ---
 
-# write-plan — Plan d'exécution atomique
+# Write-Plan
 
-**Mission :** Produire un plan d'exécution précis et séquencé à partir d'une spécification claire. Ne code pas — seulement planifie.
+**Mission : produire un plan d'exécution précis et séquencé** à partir d'une spécification claire. Ne pas coder — seulement planifier.
+
+Chaque étape DOIT être :
+- **atomique** (1 responsabilité)
+- **testable** (critère de succès mesurable)
+- **localisée** (fichiers impactés, max 5/étape)
+- **modélisée** (modèle Ollama assigné)
 
 ## Quand l'utiliser
 
-**OBLIGATOIRE** après `/brainstorm-spec` validée, ou pour toute tâche multi-fichiers / complexité moyenne+.
+OBLIGATOIRE après `/brainstorm-spec` validée, ou pour toute tâche multi-fichiers / complexité moyenne+.
 
-## Contraintes de format
-
-Chaque étape DOIT être :
-- **Atomique** (1 responsabilité)
-- **Testable** (critère de succès mesurable)
-- **Localisée** (max 5 fichiers/étape)
-- **Modélisée** (modèle Ollama assigné)
-
-## Processus (5 étapes internes)
+## Processus (5 étapes)
 
 1. **ANALYSE** → Comprendre la spec + contraintes
-2. **DÉCOUPAGE** → Tâches atomiques, max 8 étapes
+2. **DÉCOUPAGE** → Tâches atomiques par priorité, max 8 étapes
 3. **LOCALISATION** → Fichiers impactés par étape
 4. **MODÉLISATION** → Modèle Ollama optimal par étape
 5. **SÉQUENÇAGE** → Ordre logique + dépendances
 
-## Format de sortie
+## Format de sortie obligatoire
 
 ```
 🎯 Objectif rappel
-📊 Métriques plan (étapes, complexité)
-🚀 Plan d'exécution (tableau : #, étape, fichiers, critère, modèle, dépend de)
+[1 phrase de la spec]
+
+📊 Métriques plan
+Étapes : [X] | Complexité : [basse | moyenne | haute]
+
+🚀 Plan d'exécution
+| # | Étape | Fichiers | Critère de succès | Modèle | Dépend de |
+|---|-------|----------|-------------------|--------|-----------|
+| 1 | [desc] | [fichiers] | [critère mesurable] | qwen3.5:35b | - |
+| 2 | ... | ... | ... | gemma4:31b | 1 |
+
 🔄 Dépendances critiques
+- Étape X bloque Y : [raison]
+
 ⚠️ Points de validation utilisateur
+- [étapes nécessitant confirmation avant exécution]
+
 🚀 Prochaine étape : /execute-plan
 ```
 
-## Spécificité obligatoire
+## Contraintes strictes
+
+- Ne pas coder — laisser à `/execute-plan`
+- Max 8 étapes — si plus, découper en sous-plans
+- Max 5 fichiers par étape
+- Modèle Ollama explicite pour chaque étape
+- Chaque étape a un critère de succès mesurable
+
+## Scope protection (GSD)
+
+**Langage interdit dans les plans :**
+- "v1", "pour l'instant", "hardcodé temporairement", "version simplifiée", "placeholder", "à compléter"
+
+Si les prérequis exigent une feature dynamique, la livrer complète **ou** proposer un découpage de phase — jamais réduire le scope silencieusement.
+
+## Spécificité obligatoire (GSD)
+
+Chaque tâche doit être suffisamment précise pour qu'une autre IA puisse l'exécuter sans poser de question.
 
 | ❌ Trop vague | ✅ Correct |
-|---|---|
+|--------------|-----------|
 | "Ajouter l'auth" | "JWT avec refresh rotation via jose, httpOnly cookies, expiry 15min/7j" |
 | "Créer l'API" | "POST /api/projects : validation name (3–50 chars), retourne 201 + objet project" |
+| "Styler le dashboard" | "Tailwind grid 3 cols/lg 1/mobile, shadow-md, hover:bg-slate-100 sur les boutons"
 
-## Scope protection
+## Modèles Ollama (local-first obligatoire)
 
-**Langage interdit dans les plans :** "v1", "pour l'instant", "hardcodé temporairement", "placeholder", "à compléter"
+- Planification/architecture/vision → `gemma4:31b`
+- Code/refactor/tests/SQL/endpoints → `qwen3.5:35b`
 
-## Liens
+## Ressources UI (intégrer dans les étapes UI)
 
-- Précédent : [brainstorm-spec](brainstorm-spec.md)
-- Suivant : [execute-plan](execute-plan.md)
+- **21st.dev** : source primaire de composants React/Tailwind — fetcher les URLs pertinentes avant de coder
+  - Composants : `https://21st.dev/community/components?category=<heros|features|pricing|...>`
+- **Stitch** : `https://stitch.withgoogle.com` — prototyper la direction visuelle AVANT implémentation
+- Workflow : Stitch (direction visuelle) → 21st.dev (composants prod) → qwen3.5:35b (intégration)
+
+## Coolify / Déploiement
+
+Quand le plan implique un déploiement :
+- Variables `VITE_*` = injectées au BUILD TIME → étape "redéploiement" obligatoire après changement env
+- Communication inter-services : utiliser les **alias réseau Coolify** (jamais `localhost`)
+- Volumes persistants : obligatoires pour données qui doivent survivre aux restarts
+
+## Tâche reçue
+
+$ARGUMENTS

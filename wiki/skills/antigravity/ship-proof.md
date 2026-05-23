@@ -1,20 +1,22 @@
 ---
-title: ship-proof
-category: antigravity
-type: skill
-trigger: /ship-proof
+name: ship-proof
+description: Prépare une livraison production-ready — build final, tests complets, changelog, commit conventionnel, checklist deploy avec rollback plan.
+keywords: ["ship", "deploy", "livraison", "release", "changelog", "commit", "build"]
 priority: critical
-depends_on: [review-hardening]
-models: []
+depends_on: ["review-hardening"]
+allowed-tools:
+  - Bash(npm *)
+  - Bash(git *)
+  - Bash(find *)
 ---
 
-# ship-proof — Livraison production-ready
+# Ship-Proof
 
-**Mission :** Finaliser une livraison 100% production-ready. Ne jamais shipper sans `/review-hardening` APPROVED.
+**Mission : finaliser une livraison 100% production-ready.** Ne jamais shipper sans `/review-hardening` APPROVED.
 
 ## Quand l'utiliser
 
-**OBLIGATOIRE** après `/review-hardening` APPROVED, ou quand l'utilisateur dit "ship it", "déploie", "livre".
+OBLIGATOIRE après `/review-hardening` APPROVED, ou quand l'utilisateur dit "ship it", "déploie", "livre".
 
 ## Checklist 7 points
 
@@ -26,35 +28,57 @@ models: []
 6. **CHECKLIST DEPLOY** → variables d'env, migrations, rollback plan
 7. **SIGN-OFF** → validation finale prêt pour prod
 
-## Format de sortie
+## Format de sortie obligatoire
 
 ```
 🚀 SHIP-PROOF : [Nom feature/bugfix]
-📊 Statut global (Build / Tests / Review / Couverture)
+
+📊 Statut global
+Build : ✅ | Tests : ✅ | Review : APPROVED | Couverture : X%
+
 🔨 1. Build & Tests
-📋 2. Changelog (## [version] - YYYY-MM-DD)
-💬 3. Commit message (conventional)
+[résultat npm run build / test]
+
+📋 2. Changelog
+## [version] - YYYY-MM-DD
+### Added / Fixed / Changed / Removed
+- [changement 1]
+- [changement 2]
+
+💬 3. Commit message
+feat(scope): [description courte]
+
+[corps optionnel]
+
+Co-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>
+
 📚 4. Documentation
+[fichiers docs mis à jour ou "aucun changement d'interface"]
+
 🚀 5. Checklist déploiement
+☑️ Variables d'env vérifiées
+☑️ Migrations DB appliquées (si applicable)
+☑️ Rollback plan : git revert HEAD ou tag [version-N-1]
+☑️ Smoke test post-deploy prévu
+
 ✅ SIGN-OFF : READY FOR PROD
 Risque résiduel : [faible | moyen | élevé]
 ```
 
-## Checklist Coolify (si VPS impliqué)
+## Checklist Coolify (si déploiement VPS impliqué)
 
-- [ ] Variables `VITE_*` à jour dans Coolify UI → redéploiement déclenché
-- [ ] Volumes persistants vérifiés
+- [ ] Variables `VITE_*` à jour dans Coolify UI (env section) → redéploiement déclenché
+- [ ] Volumes persistants vérifiés (données ne disparaissent pas au restart)
 - [ ] Alias réseau Coolify corrects (inter-services via alias, pas localhost)
-- [ ] Rollback : Coolify → service → deploy history → version précédente
+- [ ] Rollback : Coolify → service → deploy history → retour à la version précédente
 
 ## Contraintes absolues
 
 - Ne jamais shipper si build ou tests échouent
-- Ne jamais shipper si BLOCKERS de review-hardening sont ouverts
+- Ne jamais shipper si des BLOCKERS de review-hardening sont ouverts
 - Toujours inclure un plan de rollback (`git revert HEAD`)
 - Couverture > 90% sur les nouvelles modifications
 
-## Liens
+## Tâche reçue
 
-- Précédent : [review-hardening](review-hardening.md)
-- Pipeline complet : [agent](agent.md)
+$ARGUMENTS
